@@ -1,9 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:prueba/pages/second_page.dart';
-import 'package:prueba/pages/third_page.dart';
-import 'package:prueba/pages/AddProductPage.dart';
+import 'dart:io';
 
-void main() {
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:crud_firebase/pages/second_page.dart';
+import 'package:crud_firebase/pages/AddProductPage.dart';
+
+//Impotaciones de firebase
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+//Link de la base de datos con conexion remota
+//https://console.firebase.google.com/project/flutter-prueba-a7914/firestore/data/~2FEvento~2F7XUOcXi6ltA38DHHx9Ii?hl=es-419
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -44,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ),
     SecondPage(),
-    ThirdPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -57,14 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Eventos'),
+        title: Text('Eventos y Ventas'),
         actions: _selectedIndex == 0
             ? [
                 IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/addProductPage');
                   },
-                  icon: Icon(Icons.add),
+                  icon: Icon(Icons.post_add),
                 ),
               ]
             : null,
@@ -78,15 +90,13 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _selectedIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.event, color: Colors.purpleAccent, size: 30.0),
+            icon: Icon(Icons.today,
+                color: Color.fromARGB(255, 153, 207, 214), size: 30.0),
             label: "Eventos",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.app_registration, color: Colors.pinkAccent, size: 30.0),
-            label: "Registro",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag, color: Colors.blueAccent, size: 30.0),
+            icon: Icon(Icons.local_mall,
+                color: Color.fromARGB(255, 193, 241, 173), size: 30.0),
             label: "Ventas",
           ),
         ],
@@ -97,10 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Widget card(String titulo, String urlImage, String descripcion) {
   return Container(
-    margin: EdgeInsets.only(top: 20),
+    margin: const EdgeInsets.only(top: 20, left: 5, right: 5),
     height: 200,
     decoration: BoxDecoration(
-      color: Colors.red,
+      color: Color.fromARGB(255, 153, 207, 214),
       borderRadius: BorderRadius.circular(24),
     ),
     child: Row(
@@ -126,7 +136,7 @@ Widget card(String titulo, String urlImage, String descripcion) {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
               ),
@@ -138,7 +148,7 @@ Widget card(String titulo, String urlImage, String descripcion) {
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 13,
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
               ),
